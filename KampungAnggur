@@ -1,0 +1,285 @@
+-- phpMyAdmin SQL Dump
+-- version 5.0.3
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Jun 07, 2022 at 03:07 PM
+-- Server version: 10.4.14-MariaDB
+-- PHP Version: 7.4.11
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `db_amnoor`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `kategori`
+--
+
+CREATE TABLE `kategori` (
+  `id_kategori` int(10) NOT NULL,
+  `nama_kategori` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `kategori`
+--
+
+INSERT INTO `kategori` (`id_kategori`, `nama_kategori`) VALUES
+(1, 'Atasan'),
+(2, 'Bawahan'),
+(3, 'Couple'),
+(4, 'Gaun');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `kota`
+--
+
+CREATE TABLE `kota` (
+  `id_kota` int(10) NOT NULL,
+  `nama_kota` varchar(100) NOT NULL,
+  `ongkir` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `kota`
+--
+
+INSERT INTO `kota` (`id_kota`, `nama_kota`, `ongkir`) VALUES
+(1, 'Mataram', 15000),
+(2, 'Praya', 20000);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pelanggan`
+--
+
+CREATE TABLE `pelanggan` (
+  `id_pelanggan` int(10) NOT NULL,
+  `nama_pelanggan` varchar(50) NOT NULL,
+  `alamat` text NOT NULL,
+  `no_hp` varchar(15) NOT NULL,
+  `email` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `pelanggan`
+--
+
+INSERT INTO `pelanggan` (`id_pelanggan`, `nama_pelanggan`, `alamat`, `no_hp`, `email`) VALUES
+(1, 'Ahmad Zakaria', 'Lombok Tengah', '085337118699', 'bangjackcode@gmail.com'),
+(2, 'vini', 'Mataram', '081234567890', 'vini@gmail.com');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pemesanan`
+--
+
+CREATE TABLE `pemesanan` (
+  `id_pemesanan` int(10) NOT NULL,
+  `id_pesanan` int(10) NOT NULL,
+  `id_pelanggan` int(10) NOT NULL,
+  `id_produk` int(10) NOT NULL,
+  `waktu_pemesanan` datetime NOT NULL,
+  `harga` int(10) NOT NULL,
+  `jumlah` int(5) NOT NULL,
+  `id_kota` int(10) NOT NULL,
+  `total_pesanan` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `pemesanan`
+--
+
+INSERT INTO `pemesanan` (`id_pemesanan`, `id_pesanan`, `id_pelanggan`, `id_produk`, `waktu_pemesanan`, `harga`, `jumlah`, `id_kota`, `total_pesanan`) VALUES
+(11, 9, 1, 2, '2022-06-04 19:04:58', 20000, 2, 1, 40000),
+(12, 9, 1, 1, '2022-06-04 19:04:58', 15000, 1, 1, 15000),
+(13, 10, 1, 2, '2022-06-05 22:59:19', 20000, 1, 1, 20000),
+(14, 11, 2, 2, '2022-06-06 18:03:55', 20000, 1, 1, 20000);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pesanan`
+--
+
+CREATE TABLE `pesanan` (
+  `id_pesanan` int(10) NOT NULL,
+  `id_pelanggan` int(10) NOT NULL,
+  `nama_penerima` varchar(100) NOT NULL,
+  `telpon` varchar(13) NOT NULL,
+  `waktu_pembayaran` datetime NOT NULL,
+  `alamat` text NOT NULL,
+  `metode_pembayaran` varchar(15) NOT NULL,
+  `pesan` text NOT NULL,
+  `bukti_transfer` varchar(100) NOT NULL,
+  `aksi` int(5) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `pesanan`
+--
+
+INSERT INTO `pesanan` (`id_pesanan`, `id_pelanggan`, `nama_penerima`, `telpon`, `waktu_pembayaran`, `alamat`, `metode_pembayaran`, `pesan`, `bukti_transfer`, `aksi`) VALUES
+(9, 1, 'Ahmad Zakaria', '085337118699', '2022-06-04 19:04:58', 'Lombok Tengah', 'transfer', '', '', 0),
+(10, 1, 'Ahmad Zakaria', '085337118699', '2022-06-05 22:59:19', 'Lombok Tengah', 'transfer', 'pesannnn', '', 0),
+(11, 2, 'vini', '081234567890', '2022-06-06 18:03:55', 'Mataram', 'transfer', '-', '', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `produk`
+--
+
+CREATE TABLE `produk` (
+  `id_produk` int(10) NOT NULL,
+  `nama_produk` varchar(100) NOT NULL,
+  `id_kategori` int(10) NOT NULL,
+  `harga` int(10) NOT NULL,
+  `gambar_produk` varchar(100) NOT NULL,
+  `deskripsi` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `produk`
+--
+
+INSERT INTO `produk` (`id_produk`, `nama_produk`, `id_kategori`, `harga`, `gambar_produk`, `deskripsi`) VALUES
+(1, 'Gamis Biru Motif', 1, 15000, '3251IMG-20220602-WA0022.jpg', 'didini deskripsnya isi sendiri'),
+(2, 'Gamis setelan', 1, 20000, '3230IMG-20220602-WA0021.jpg', 'deskripsi disini'),
+(4, 'gamis pink', 1, 400000, '5957IMG-20220602-WA0036.jpg', 'deskripsi produk disini');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user`
+--
+
+CREATE TABLE `user` (
+  `id_user` int(10) NOT NULL,
+  `username` varchar(20) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `level` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`id_user`, `username`, `email`, `password`, `level`) VALUES
+(1, 'admin', 'admin@gmail.com', '$2y$10$0cLQfRXa0spgge.hU8XrueANqhPd60ej41QaRtSn7ZOKpyElBwXYK', 'admin'),
+(2, 'zakaria', 'bangjackcode@gmail.com', '$2y$10$0cLQfRXa0spgge.hU8XrueANqhPd60ej41QaRtSn7ZOKpyElBwXYK', 'pelanggan'),
+(3, 'vini', 'vini@gmail.com', '$2y$10$.Zy.40asbSZbQ00FkXGVg.TzKWXeaYVoSNjaCu80IWhPHYsM0HSIa', 'pelanggan');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `kategori`
+--
+ALTER TABLE `kategori`
+  ADD PRIMARY KEY (`id_kategori`);
+
+--
+-- Indexes for table `kota`
+--
+ALTER TABLE `kota`
+  ADD PRIMARY KEY (`id_kota`);
+
+--
+-- Indexes for table `pelanggan`
+--
+ALTER TABLE `pelanggan`
+  ADD PRIMARY KEY (`id_pelanggan`);
+
+--
+-- Indexes for table `pemesanan`
+--
+ALTER TABLE `pemesanan`
+  ADD PRIMARY KEY (`id_pemesanan`);
+
+--
+-- Indexes for table `pesanan`
+--
+ALTER TABLE `pesanan`
+  ADD PRIMARY KEY (`id_pesanan`);
+
+--
+-- Indexes for table `produk`
+--
+ALTER TABLE `produk`
+  ADD PRIMARY KEY (`id_produk`);
+
+--
+-- Indexes for table `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`id_user`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `kategori`
+--
+ALTER TABLE `kategori`
+  MODIFY `id_kategori` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `kota`
+--
+ALTER TABLE `kota`
+  MODIFY `id_kota` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `pelanggan`
+--
+ALTER TABLE `pelanggan`
+  MODIFY `id_pelanggan` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `pemesanan`
+--
+ALTER TABLE `pemesanan`
+  MODIFY `id_pemesanan` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `pesanan`
+--
+ALTER TABLE `pesanan`
+  MODIFY `id_pesanan` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT for table `produk`
+--
+ALTER TABLE `produk`
+  MODIFY `id_produk` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `user`
+--
+ALTER TABLE `user`
+  MODIFY `id_user` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
